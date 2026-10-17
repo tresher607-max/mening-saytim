@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hisobchi — Kompaniya xarajatlari platformasi</title>
+<meta name="description" content="Korporativ kartalar, xarajatlar va tasdiqlashlarni bitta tizimda boshqaring.">
+<style>
+:root{--bg:#07080b;--panel:#0f1117;--line:#1d2029;--text:#f2f4f8;--muted:#8b92a3;--accent:#2f7bff;--green:#34d399}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+/* nav */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,8,11,.7);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.logo i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#5b9bff,#2f7bff 60%,#1a4fd0);display:block}
+nav ul{display:flex;gap:30px;list-style:none;color:var(--muted);font-size:14px}
+nav ul a:hover{color:var(--text)}
+.actions{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;border:1px solid var(--line);transition:.2s;cursor:pointer;background:transparent;color:var(--text)}
+.btn:hover{border-color:#3a3f4f}
+.btn.primary{background:var(--accent);border-color:var(--accent);box-shadow:0 8px 30px -8px rgba(47,123,255,.7)}
+.btn.primary:hover{background:#4a8cff}
+.burger{display:none;background:none;border:0;color:var(--text);font-size:24px;cursor:pointer}
+/* hero */
+.hero{position:relative;text-align:center;padding:96px 0 40px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-200px 0 auto 0;height:700px;background:radial-gradient(600px 300px at 50% 30%,rgba(47,123,255,.22),transparent 70%);pointer-events:none}
+.pill{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:6px 14px;border-radius:999px;background:var(--panel)}
+h1{font-size:clamp(38px,6vw,68px);line-height:1.08;letter-spacing:-.03em;margin:22px auto 18px;max-width:820px;font-weight:700}
+.hero p.lead{color:var(--muted);max-width:560px;margin:0 auto 30px;font-size:18px}
+.cta{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
+.cta small{color:var(--muted);font-size:13px;text-align:left;line-height:1.3}
+/* dashboard mock */
+.dash{margin:64px auto 0;max-width:980px;background:var(--panel);border:1px solid var(--line);border-radius:20px;display:grid;grid-template-columns:200px 1fr;text-align:left;box-shadow:0 40px 120px -30px rgba(47,123,255,.25);overflow:hidden}
+.side{border-right:1px solid var(--line);padding:20px 14px}
+.side .logo{font-size:15px;margin:0 6px 20px}
+.side .logo i{width:20px;height:20px;border-radius:6px}
+.side a{display:block;padding:9px 12px;border-radius:8px;color:var(--muted);font-size:14px;margin-bottom:2px}
+.side a.on{background:#181b24;color:var(--text)}
+.main{padding:24px}
+.main h4{font-size:15px;margin-bottom:16px;display:flex;justify-content:space-between}
+.main h4 span{color:var(--muted);font-weight:400;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi{background:#0b0d12;border:1px solid var(--line);border-radius:12px;padding:16px}
+.kpi small{color:var(--muted);font-size:12px}
+.kpi b{display:block;font-size:24px;margin:4px 0}
+.kpi em{font-style:normal;font-size:12px;color:var(--green)}
+.bar{height:6px;background:#1a1d27;border-radius:9px;margin-top:10px;overflow:hidden}
+.bar div{height:100%;width:68%;background:linear-gradient(90deg,var(--accent),#7db1ff)}
+.chart{display:flex;align-items:flex-end;gap:10px;height:120px;margin-top:16px;padding:16px;background:#0b0d12;border:1px solid var(--line);border-radius:12px}
+.chart span{flex:1;background:linear-gradient(180deg,#5b9bff,#1f4fb8);border-radius:5px 5px 0 0;opacity:.85}
+/* logos */
+.trust{padding:70px 0 20px;text-align:center;color:var(--muted);font-size:14px}
+.trust div{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin-top:20px;font-weight:700;font-size:20px;color:#4b5263;letter-spacing:.02em}
+/* sections */
+section{padding:90px 0}
+.head{text-align:center;max-width:620px;margin:0 auto 56px}
+.head h2{font-size:clamp(30px,4vw,44px);letter-spacing:-.025em;line-height:1.15;margin-bottom:14px}
+.head p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px;transition:.25s}
+.card:hover{border-color:#2d3a58;transform:translateY(-3px)}
+.ico{width:42px;height:42px;border-radius:12px;background:rgba(47,123,255,.14);display:grid;place-items:center;font-size:20px;margin-bottom:18px}
+.card h3{font-size:18px;margin-bottom:8px}
+.card p{color:var(--muted);font-size:15px}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{counter-increment:s;padding:28px;border-left:1px solid var(--line)}
+.step::before{content:"0" counter(s);color:var(--accent);font-weight:700;font-size:14px}
+.step h3{margin:10px 0 8px;font-size:20px}
+.step p{color:var(--muted)}
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px;display:flex;flex-direction:column;cursor:pointer;transition:border-color .25s,background .25s,transform .25s}
+.plan.pop{border-color:var(--accent);background:linear-gradient(180deg,rgba(47,123,255,.1),var(--panel) 50%)}
+.plan .btn{transition:.25s}
+.plan.pop .btn{background:var(--accent);border-color:var(--accent);box-shadow:0 8px 30px -8px rgba(47,123,255,.7)}
+.plan h3{font-size:16px;color:var(--muted);font-weight:500}
+.plan .price{font-size:42px;font-weight:700;margin:10px 0 18px;letter-spacing:-.02em}
+.plan .price small{font-size:14px;color:var(--muted);font-weight:400}
+.plan ul{list-style:none;margin-bottom:28px;flex:1}
+.plan li{padding:7px 0;color:#c4c9d6;font-size:15px}
+.plan li::before{content:"✓";color:var(--green);margin-right:10px}
+.plan .btn{justify-content:center}
+/* faq */
+.faq{max-width:720px;margin:0 auto}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"+";color:var(--muted);font-size:20px}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:12px}
+/* final cta */
+.final{text-align:center;background:radial-gradient(500px 220px at 50% 0%,rgba(47,123,255,.25),transparent 70%),var(--panel);border:1px solid var(--line);border-radius:28px;padding:72px 24px}
+.final h2{font-size:clamp(28px,4vw,42px);margin-bottom:12px;letter-spacing:-.02em}
+.final p{color:var(--muted);margin-bottom:28px}
+footer{border-top:1px solid var(--line);padding:40px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+[hidden]{display:none!important}
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(3,4,7,.7);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:.25s}
+.modal.open{opacity:1;pointer-events:auto}
+.box{position:relative;width:100%;max-width:440px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:34px;transform:translateY(16px) scale(.98);transition:.25s;box-shadow:0 40px 120px -20px rgba(47,123,255,.3)}
+.modal.open .box{transform:none}
+.box h3{font-size:24px;letter-spacing:-.02em;margin-bottom:6px}
+.box>div>p{color:var(--muted);font-size:15px;margin-bottom:22px}
+.x{position:absolute;top:14px;right:16px;background:none;border:0;color:var(--muted);font-size:26px;cursor:pointer;line-height:1}
+.x:hover{color:var(--text)}
+.box label{display:block;font-size:13px;color:var(--muted);margin-bottom:14px}
+.box input,.box select{display:block;width:100%;margin-top:6px;padding:12px 14px;background:#0b0d12;border:1px solid var(--line);border-radius:12px;color:var(--text);font:inherit;font-size:15px;outline:none;transition:.2s}
+.box input:focus,.box select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(47,123,255,.18)}
+.box form .btn{width:100%;justify-content:center;margin-top:6px;padding:13px}
+.box .btn:disabled{opacity:.6;cursor:wait}
+.ok{text-align:center;padding:10px 0}
+.ok .tick{width:64px;height:64px;border-radius:50%;background:rgba(52,211,153,.14);color:var(--green);display:grid;place-items:center;font-size:30px;margin:0 auto 18px}
+.ok p{color:var(--muted);margin:8px 0 22px}
+.fade{opacity:0;transform:translateY(18px);transition:.7s}
+.fade.in{opacity:1;transform:none}
+@media(max-width:860px){
+ nav ul{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--bg);padding:20px 24px;border-bottom:1px solid var(--line);gap:16px}
+ nav ul.open{display:flex}
+ .burger{display:block}.actions .btn:not(.primary){display:none}
+ .grid,.steps,.plans,.kpis{grid-template-columns:1fr}
+ .dash{grid-template-columns:1fr}.side{display:none}
+ .step{border-left:0;border-top:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap nav">
+  <a class="logo" href="#"><i></i>Hisobchi</a>
+  <nav><ul id="menu">
+   <li><a href="#platforma">Platforma</a></li>
+   <li><a href="#qanday">Qanday ishlaydi</a></li>
+   <li><a href="#narx">Narxlar</a></li>
+   <li><a href="#faq">Savollar</a></li>
+  </ul></nav>
+  <div class="actions">
+   <a class="btn" href="#">Kirish</a>
+   <a class="btn primary" href="#demo">Demo so'rash</a>
+   <button class="burger" id="burger" aria-label="Menyu">☰</button>
+  </div>
+ </div>
+</header>
+
+<main>
+<section class="hero">
+ <div class="wrap">
+  <span class="pill">Aqlli xarajat nazorati</span>
+  <h1>Kompaniya xarajatlari uchun yagona tizim</h1>
+  <p class="lead">Korporativ kartalar, xarajatlar va tasdiqlashlarni bir joyda boshqaring — moliya jamoangiz jadvallar bilan emas, strategiya bilan band bo'lsin.</p>
+  <div class="cta">
+   <a class="btn primary" href="#demo">Boshlash →</a>
+   <small>14 kunlik bepul sinov<br>Karta talab qilinmaydi</small>
+  </div>
+
+  <div class="dash fade">
+   <aside class="side">
+    <div class="logo"><i></i>Hisobchi</div>
+    <a class="on" href="#">Umumiy ko'rinish</a><a href="#">Kartalar</a><a href="#">Xarajatlar</a><a href="#">Tasdiqlashlar</a><a href="#">Hisobotlar</a>
+   </aside>
+   <div class="main">
+    <h4>Umumiy ko'rinish <span>So'nggi 30 kun</span></h4>
+    <div class="kpis">
+     <div class="kpi"><small>Jami xarajat</small><b>$284 530</b><em>+12.4%</em></div>
+     <div class="kpi"><small>Kutilayotgan tasdiqlar</small><b>14</b><small>8 tasi jarayonda</small></div>
+     <div class="kpi"><small>Byudjet ishlatildi</small><b>68%</b><div class="bar"><div></div></div></div>
+    </div>
+    <div class="chart" aria-hidden="true">
+     <span style="height:35%"></span><span style="height:50%"></span><span style="height:42%"></span><span style="height:70%"></span><span style="height:58%"></span><span style="height:85%"></span><span style="height:64%"></span><span style="height:92%"></span>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<div class="trust wrap">Minglab jamoalar ishonadi
+ <div><span>NORDIX</span><span>Quantum</span><span>Orbita</span><span>Kapitol</span><span>Zarbdor</span></div>
+</div>
+
+<section id="platforma">
+ <div class="wrap">
+  <div class="head fade"><h2>Moliyaviy nazoratning hamma qurollari</h2><p>Har bir so'm qayerga ketayotganini real vaqtda ko'ring va boshqaring.</p></div>
+  <div class="grid">
+   <div class="card fade"><div class="ico">💳</div><h3>Korporativ kartalar</h3><p>Virtual va jismoniy kartalarni soniyalarda chiqaring, limit va qoidalarni o'rnating.</p></div>
+   <div class="card fade"><div class="ico">🧾</div><h3>Avtomatik xarajatlar</h3><p>Cheklar avtomatik biriktiriladi, kategoriyalar o'zi aniqlanadi.</p></div>
+   <div class="card fade"><div class="ico">✅</div><h3>Tasdiqlash oqimlari</h3><p>Summa va bo'lim bo'yicha ko'p bosqichli tasdiqlashni sozlang.</p></div>
+   <div class="card fade"><div class="ico">📊</div><h3>Jonli hisobotlar</h3><p>Byudjet, bo'limlar va yetkazib beruvchilar kesimida tahlil.</p></div>
+   <div class="card fade"><div class="ico">🌍</div><h3>Ko'p valyuta</h3><p>UZS, USD, EUR va boshqa valyutalarda to'lovlar va yagona hisobot.</p></div>
+   <div class="card fade"><div class="ico">🔒</div><h3>Xavfsizlik</h3><p>Rollar asosida ruxsat, ikki bosqichli himoya va to'liq audit jurnali.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="qanday">
+ <div class="wrap">
+  <div class="head fade"><h2>Uch qadamda ishga tushiring</h2><p>Sozlash kunlar emas, daqiqalar oladi.</p></div>
+  <div class="steps">
+   <div class="step fade"><h3>Hisobni ulang</h3><p>Bank hisobingiz va buxgalteriya tizimingizni xavfsiz ulang.</p></div>
+   <div class="step fade"><h3>Qoidalarni belgilang</h3><p>Limitlar, kategoriyalar va tasdiqlovchilarni tanlang.</p></div>
+   <div class="step fade"><h3>Nazorat qiling</h3><p>Barcha xarajatlar bitta panelda, real vaqtda ko'rinadi.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="narx">
+ <div class="wrap">
+  <div class="head fade"><h2>Oddiy va shaffof narxlar</h2><p>Yashirin to'lovlarsiz. Istalgan vaqtda bekor qiling.</p></div>
+  <div class="plans">
+   <div class="plan fade"><h3>Start</h3><div class="price">$0<small> /oy</small></div>
+    <ul><li>5 tagacha foydalanuvchi</li><li>3 ta virtual karta</li><li>Asosiy hisobotlar</li></ul><a class="btn" href="#demo">Bepul boshlash</a></div>
+   <div class="plan pop fade"><h3>Biznes</h3><div class="price">$49<small> /oy</small></div>
+    <ul><li>Cheksiz foydalanuvchilar</li><li>Cheksiz kartalar</li><li>Tasdiqlash oqimlari</li><li>Ko'p valyuta</li></ul><a class="btn" href="#demo">Sinab ko'rish</a></div>
+   <div class="plan fade"><h3>Korporativ</h3><div class="price">Kelishiladi</div>
+    <ul><li>Shaxsiy menejer</li><li>API va integratsiyalar</li><li>SSO va maxsus xavfsizlik</li></ul><a class="btn" href="#demo">Bog'lanish</a></div>
+  </div>
+ </div>
+</section>
+
+<section id="faq">
+ <div class="wrap">
+  <div class="head fade"><h2>Ko'p beriladigan savollar</h2></div>
+  <div class="faq fade">
+   <details><summary>Sinov muddati tugagach nima bo'ladi?</summary><p>Hisobingiz Start rejasiga o'tadi. Hech narsa avtomatik yechilmaydi.</p></details>
+   <details><summary>Ma'lumotlarim xavfsizmi?</summary><p>Ha, barcha ma'lumotlar shifrlanadi va har bir harakat audit jurnalida saqlanadi.</p></details>
+   <details><summary>Buxgalteriya dasturlari bilan integratsiya bormi?</summary><p>Ha, mashhur tizimlar bilan integratsiya va ochiq API mavjud.</p></details>
+  </div>
+ </div>
+</section>
+
+<section id="demo" style="padding-top:20px">
+ <div class="wrap">
+  <div class="final fade">
+   <h2>Xarajatlarni nazoratga olishga tayyormisiz?</h2>
+   <p>Bugunoq bepul sinab ko'ring yoki demo so'rang.</p>
+   <a class="btn primary" href="#demo">Demo so'rash →</a>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="wrap"><span>© 2026 Hisobchi. Barcha huquqlar himoyalangan.</span><span>Maxfiylik · Shartlar · Aloqa</span></div>
+</footer>
+
+<div class="modal" id="modal" aria-hidden="true">
+ <div class="box" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <button class="x" id="mx" aria-label="Yopish">×</button>
+  <div id="step1">
+   <h3 id="mt">Demo so'rash</h3>
+   <p>Ma'lumotlaringizni qoldiring, jamoamiz 24 soat ichida bog'lanadi.</p>
+   <form id="demoForm">
+    <label>Ismingiz<input name="name" required placeholder="Salom Karimov"></label>
+    <label>Ish emailingiz<input name="email" type="email" required placeholder="siz@kompaniya.uz"></label>
+    <label>Kompaniya nomi<input name="company" required placeholder="Kompaniya"></label>
+    <label>Telefon (ixtiyoriy)<input name="phone" type="tel" placeholder="+998 90 123 45 67"></label>
+    <label>Jamoa hajmi
+     <select name="size"><option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option></select>
+    </label>
+    <button class="btn primary" type="submit" id="sendBtn">Yuborish →</button>
+   </form>
+  </div>
+  <div id="step2" class="ok" hidden>
+   <div class="tick">✓</div>
+   <h3>Rahmat!</h3>
+   <p>So'rovingiz qabul qilindi. Tez orada siz bilan bog'lanamiz.</p>
+   <button class="btn" id="done" type="button">Yopish</button>
+  </div>
+ </div>
+</div>
+
+<script>
+document.getElementById('burger').onclick=()=>document.getElementById('menu').classList.toggle('open');
+document.querySelectorAll('#menu a').forEach(a=>a.onclick=()=>document.getElementById('menu').classList.remove('open'));
+/* ---- Demo modal ---- */
+// Ma'lumotlar qayerga ketishi: Formspree manzilini shu yerga qo'ying, masalan 'https://formspree.io/f/xxxxxxx'
+const FORM_ENDPOINT='';
+const modal=document.getElementById('modal'),s1=document.getElementById('step1'),s2=document.getElementById('step2'),form=document.getElementById('demoForm'),sendBtn=document.getElementById('sendBtn');
+function openModal(e){if(e)e.preventDefault();s1.hidden=false;s2.hidden=true;modal.classList.add('open');modal.setAttribute('aria-hidden','false');setTimeout(()=>form.elements.name.focus(),150)}
+function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+document.querySelectorAll('a[href="#demo"]').forEach(a=>a.addEventListener('click',openModal));
+document.getElementById('mx').onclick=closeModal;
+document.getElementById('done').onclick=closeModal;
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+form.addEventListener('submit',async e=>{
+ e.preventDefault();
+ sendBtn.disabled=true;sendBtn.textContent='Yuborilmoqda...';
+ const data=Object.fromEntries(new FormData(form));
+ try{
+  if(FORM_ENDPOINT){
+   const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+   if(!r.ok)throw new Error('xato');
+  }else{await new Promise(r=>setTimeout(r,700));console.log('Demo so\'rovi:',data)}
+  form.reset();s1.hidden=true;s2.hidden=false;
+ }catch(err){alert('Yuborishda xatolik. Qayta urinib ko\'ring.')}
+ sendBtn.disabled=false;sendBtn.textContent='Yuborish →';
+});
+
+const plans=document.querySelectorAll('.plan');
+plans.forEach(p=>{
+ const on=()=>{plans.forEach(x=>x.classList.remove('pop'));p.classList.add('pop')};
+ p.addEventListener('mouseenter',on);
+ p.addEventListener('focusin',on);
+ p.addEventListener('touchstart',on,{passive:true});
+});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
